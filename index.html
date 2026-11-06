@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071629">
+<title>Alfie's Bartending Academy</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f7f4ed;color:#182334}
+header{background:#071629;color:#e8c477;text-align:center;padding:28px 12px}
+header h1{margin:0;font-size:25px}
+header p{color:white;letter-spacing:3px;font-size:11px}
+.hero{background:#102d48;color:white;padding:25px 20px}
+.hero h2{color:#e8c477}
+main{max-width:650px;margin:auto;padding:16px}
+.card{background:white;padding:17px;margin:12px 0;border-radius:12px;box-shadow:0 2px 8px #0001}
+.chapter{width:100%;text-align:left;background:white;color:#102d48;border:1px solid #eee;margin:5px 0;padding:17px;border-radius:10px}
+.chapter small{display:block;color:#777;margin-top:5px}
+button{cursor:pointer;font-size:15px}
+.gold{background:#a77b32;color:white;border:0;padding:13px;border-radius:8px}
+.back{background:#eee;color:#222;border:0;padding:12px;border-radius:8px}
+.hidden{display:none}
+h2{color:#102d48}
+h3{color:#9a702c}
+.recipe{border-left:3px solid #e8c477;padding-left:12px;margin:20px 0}
+footer{background:#071629;color:#e8c477;text-align:center;padding:22px;font-size:12px}
+.progress{height:8px;background:#ddd;border-radius:10px;overflow:hidden}
+#bar{height:100%;background:#e8c477;width:0}
+</style>
+</head>
+<body>
+
+<header>
+<h1>ALFIE'S BARTENDING ACADEMY</h1>
+<p>LEARN • MIX • MASTER</p>
+</header>
+
+<div class="hero">
+<h2>Welcome to your bar.</h2>
+<p>Learn the foundations. Build confidence. Serve with care.</p>
+<p id="progressText">0 of 7 chapters completed</p>
+<div class="progress"><div id="bar"></div></div>
+</div>
+
+<main>
+<section id="home">
+<h2>Your Learning Programme</h2>
+<p>Choose a chapter to begin.</p>
+<div id="chapters"></div>
+</section>
+
+<section id="lesson" class="card hidden">
+<button class="back" onclick="home()">← All chapters</button>
+<div id="content"></div>
+<button class="gold" onclick="complete()">Mark as completed ✓</button>
+<p>
+<button class="back" onclick="move(-1)">Previous</button>
+<button class="gold" onclick="move(1)">Next chapter →</button>
+</p>
+</section>
+
+<div class="card">
+<h3>About Alfie's Academy</h3>
+<p>Professional bartending knowledge, classic cocktails and practical techniques, presented by Alfie.</p>
+</div>
+</main>
+
+<footer>
+ALFIE'S BARTENDING ACADEMY<br>
+LEARN • MIX • MASTER<br>
+Always serve responsibly.
+</footer>
+
+<script>
+const lessons=[
+["Essential Bar Tools",`
+<h3>Your basic kit</h3>
+<ul>
+<li><b>Cocktail shaker:</b> Chills and combines ingredients.</li>
+<li><b>Jigger:</b> Measures spirits and mixers accurately.</li>
+<li><b>Bar spoon:</b> Stirs drinks gently.</li>
+<li><b>Strainer:</b> Holds back ice and unwanted solids.</li>
+<li><b>Muddler:</b> Releases aromas from herbs and fruit.</li>
+<li><b>Citrus press and knife:</b> Prepare juice and garnishes.</li>
+</ul>
+<p>Tip: Clean and dry tools after every use. Accurate measuring improves consistency.</p>`],
+
+["Glassware Basics",`
+<h3>Three essential glasses</h3>
+<ul>
+<li><b>Highball:</b> Tall glass for long drinks with ice and a mixer.</li>
+<li><b>Coupe:</b> Stemmed glass for chilled cocktails served without ice.</li>
+<li><b>Rocks:</b> Short, sturdy glass for drinks served over ice or a large cube.</li>
+</ul>
+<p>Always use clean, undamaged glassware. Chill glasses when the recipe calls for it.</p>`],
+
+["Four Foundational Techniques",`
+<h3>Shake</h3><p>Add ingredients and ice to a shaker. Seal, shake firmly until chilled and strain.</p>
+<h3>Stir</h3><p>Combine ingredients with ice in a mixing glass. Stir smoothly and strain.</p>
+<h3>Build</h3><p>Measure ingredients directly into the serving glass, usually over fresh ice.</p>
+<h3>Muddle</h3><p>Press herbs or fruit gently to release oils and juice. Avoid crushing delicate leaves.</p>
+<p><b>Rule:</b> Shake drinks containing citrus juice. Stir spirit-forward drinks when clarity and silky texture are desired.</p>`],
+
+["Three Easy Drinks",`
+<div class="recipe">
+<h3>Vodka Soda</h3>
+<p><b>Glass:</b> Highball</p>
+<ul><li>45 ml vodka</li><li>120 ml soda water</li><li>Ice</li><li>Lemon or lime wedge</li></ul>
+<p>Fill the glass with ice. Add vodka, top with soda and stir gently once. Garnish with citrus.</p>
+</div>
+<div class="recipe">
+<h3>Mojito</h3>
+<p><b>Glass:</b> Sturdy glass or highball</p>
+<ul><li>50 ml white rum</li><li>25 ml fresh lime juice</li><li>2 teaspoons sugar or 20 ml sugar syrup</li><li>6–8 mint leaves</li><li>Soda water</li><li>Crushed ice</li></ul>
+<p>Gently press mint with lime and sugar. Add rum and crushed ice. Churn gently, top with soda and garnish with mint.</p>
+</div>
+<div class="recipe">
+<h3>Gin and Tonic</h3>
+<p><b>Glass:</b> Highball or copa</p>
+<ul><li>50 ml gin</li><li>100–150 ml tonic water</li><li>Ice</li><li>Lime wedge</li></ul>
+<p>Fill with ice. Add gin, top with tonic and stir gently. Garnish with lime.</p>
+</div>`],
+
+["Hygiene and Responsible Service",`
+<h3>Hygiene checklist</h3>
+<ul>
+<li>Wash hands regularly and after handling waste or money.</li>
+<li>Keep surfaces, tools and glassware clean.</li>
+<li>Use fresh garnishes and store ingredients safely.</li>
+<li>Use clean ice scoops; never handle ice with bare hands.</li>
+<li>Keep raw foods separate from ready-to-serve ingredients.</li>
+</ul>
+<h3>Responsible service</h3>
+<ul>
+<li>Follow local laws and venue policies.</li>
+<li>Never serve anyone below the legal drinking age.</li>
+<li>Watch for intoxication and stop service when appropriate.</li>
+<li>Offer water and non-alcoholic alternatives.</li>
+<li>Never encourage rapid or excessive drinking.</li>
+</ul>`],
+
+["Common Beginner Mistakes",`
+<ol>
+<li><b>Free-pouring without practice:</b> Measure until portions are consistent.</li>
+<li><b>Using tired ice:</b> Use fresh, solid ice.</li>
+<li><b>Over-muddling mint:</b> Press gently to avoid bitterness.</li>
+<li><b>Skipping garnish:</b> A citrus twist can improve aroma and presentation.</li>
+<li><b>Forgetting balance:</b> Taste thoughtfully and adjust recipes consistently.</li>
+</ol>`],
+
+["Your Seven-Day Learning Plan",`
+<ol>
+<li>Day 1: Identify the tools and learn what each one does.</li>
+<li>Day 2: Match common drinks to their glassware.</li>
+<li>Day 3: Practise measuring with water and a jigger.</li>
+<li>Day 4: Learn the difference between shaking and stirring.</li>
+<li>Day 5: Practise building a long drink with a non-alcoholic mixer.</li>
+<li>Day 6: Prepare citrus and simple garnishes safely.</li>
+<li>Day 7: Review the three recipes and hygiene checklist.</li>
+</ol>
+<h3>Final thought</h3>
+<p>Great bartending starts with preparation, precision, cleanliness and hospitality. Learn the foundations well, and every new recipe becomes easier to understand.</p>`]
+];
+
+let current=0;
+let done=JSON.parse(localStorage.getItem("alfieDone")||"[]");
+
+function render(){
+document.getElementById("chapters").innerHTML=lessons.map((l,i)=>
+`<button class="chapter" onclick="openLesson(${i})">
+<strong>${i+1}. ${l[0]}</strong>
+<small>${done.includes(i)?"✓ Completed":"Tap to explore"}</small>
+</button>`).join("");
+document.getElementById("progressText").textContent=done.length+" of 7 chapters completed";
+document.getElementById("bar").style.width=(done.length/7*100)+"%";
+}
+
+function openLesson(i){
+current=i;
+document.getElementById("home").classList.add("hidden");
+document.getElementById("lesson").classList.remove("hidden");
+document.getElementById("content").innerHTML="<h2>"+lessons[i][0]+"</h2>"+lessons[i][1];
+}
+
+function home(){
+document.getElementById("lesson").classList.add("hidden");
+document.getElementById("home").classList.remove("hidden");
+render();
+}
+
+function complete(){
+if(!done.includes(current))done.push(current);
+localStorage.setItem("alfieDone",JSON.stringify(done));
+render();
+}
+
+function move(n){
+let next=current+n;
+if(next>=0&&next<lessons.length)openLesson(next);
+else home();
+}
+
+render();
+</script>
+</body>
+</html>
